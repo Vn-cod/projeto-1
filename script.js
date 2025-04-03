@@ -32,3 +32,42 @@ function atualizarContador() {
 
 // Inicia o contador ao carregar a página
 atualizarContador();
+
+// Selecionando os elementos
+const audio = document.getElementById("player");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const startMusicBtn = document.getElementById("startMusicBtn");
+
+// Tenta tocar a música automaticamente quando a página carrega
+window.addEventListener("load", () => {
+    audio.play().then(() => {
+        startMusicBtn.classList.add("hidden"); // Esconde o botão se tocar automaticamente
+    }).catch(() => {
+        startMusicBtn.classList.remove("hidden"); // Mostra o botão se o navegador bloquear a reprodução
+    });
+});
+
+// Se o usuário tocar na tela, iniciar a música
+document.body.addEventListener("click", () => {
+    if (audio.paused) {
+        audio.play();
+        startMusicBtn.classList.add("hidden"); // Esconde o botão após tocar
+    }
+}, { once: true }); // Esse evento só acontece uma vez
+
+// Botão para iniciar a música manualmente se necessário
+startMusicBtn.addEventListener("click", () => {
+    audio.play();
+    startMusicBtn.classList.add("hidden");
+});
+
+// Botão para pausar/reproduzir a música
+playPauseBtn.addEventListener("click", () => {
+    if (audio.paused) {
+        audio.play();
+        playPauseBtn.innerText = "⏸️ Pausar Música";
+    } else {
+        audio.pause();
+        playPauseBtn.innerText = "▶️ Tocar Música";
+    }
+});
